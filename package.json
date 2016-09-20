@@ -1,0 +1,27 @@
+{
+  "name": "brandchat-bot-core",
+  "version": "1.0.0",
+  "description": "Core wrapper library for building Brandchat Bots",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "brandchat-bot-core"
+  },
+  "keywords": [
+    "brandchat",
+    "chat",
+    "bots",
+    "bot",
+    "platform",
+    "brands"
+  ],
+  "author": "Almir Cajic",
+  "license": "ISC",
+  "dependencies": {
+    "request": "2.75.0",
+    "socket.io-client": "1.4.8"
+  }
+}
