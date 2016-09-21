@@ -60,7 +60,7 @@ First, lets create a new app called Check Order Status. Open your command prompt
 
 then, go into that folder:
 
-`cd check-order-status' 
+`cd check-order-status`
 
 then, type:
 
@@ -99,7 +99,14 @@ messageManager.onMessage(function(message){
 
 This code represents absolute minimum required code for bot to work. In essence, this bot will answer question by saying `Hi. I'm Check Order Status Bot` and will respond to any message with `Sorry, I can not handle your input, yet!`.
 
-Let's break it down and explain what we did here.
+To try it out, just replace bot_key and security_key in the code above, and then run 
+```
+node index.js
+```
+
+If all was properly setup, you should be able to test the bot by asking question under Filter Category Bot is ready to handle (see Requirements above for how to setup Bot agents).
+
+Let's move on and break it down and explain what we did here.
 
 
 ###### Include lib
@@ -208,15 +215,83 @@ messageManager.sendMessageOptions(message.questionId, "Choose product you wish t
 ```
 
 
+#### Question Object
+When question is asked, Question object is passed into `welcomeMessage` function. Question object contains the following information that you may find useful:
+
+- String **messageText**: original value of the question user asked
+- String **text**: adjusted - lowercase - value of the question user asked
+- String **id**: Unique Id of the question
+- Date **postedDate**: date message is posted
+- String **status**: status of the question. By default this is always "Open" 
+- String **questionTag**: unique string key for this brand (similar to #hashtag on social media networks - but we call it ?questiontag)
+- String **postedBy**: username (phone number) of the person that posted the question 
+- String **postedByInfoDisplayName**: display representation of the user who posted the question (it resolves to username if name is not provided)
+- String **postedByInfoName**: name of the user who posted the question
+- String **postedByInfoPhoto**: file name of the user who posted the question (TODO: Provide ways to get photo from our servers)
+- String **tagInfoBizHours**: infor about supporting hours
+- String **tagInfoColor**: background color code of the brand
+- String **tagInfoTextcolor**: text color of the brand
+- String **tagInfoCompanyName**: full legal company name of the brand
+- String **tagInfoBrandName**: brand name
+- String **tagInfoLogo**: file name of the brand logo
+- Array<String> **tagFilters**: list of tags user selected when asking the question. As of today, this list always returns one and only one item
+- Array<String> **people**: list of usernames of people and bots who are attending to this question
+- Array<JSON Objects> **peopleInfo**: list of JSON objects containing more details about people who are helping such as name and photo
+- Boolean **forwarded**: is the message forwarded
+- Date **requestedClose**: date of when agent has last time requested closing of this question.
+
+Sample Question object:
+``` 
+{ 
+     messageText: 'This is the Question USER asked',
+     text: 'this is the question user asked',
+     id: 'ff2cf9f7-b971-422a-c65a-b243a5964dc59999',
+     postedDate: '2016-09-21T10:25:37Z',
+     status: 'Open',
+     questionTag: 'unique-tag-associated-with-the-brand',
+     postedBy: 'username-phonenumber-of-user-who-posted-the-question',
+     postedByInfoDisplayName: 'Almir C.',
+     postedByInfoName: 'Almir C.',
+     postedByInfoPhoto: 'filename-of-photo.png',
+     tagInfoBizHours: 'Weekdays 9am-6pm',
+     tagInfoColor: '#303f9f',
+     tagInfoCompanyName: 'Alcassoft Solutions Sdn.Bhd.',
+     tagInfoBrandName: 'Brandchat',
+     tagInfoLogo: 'filename-of-logo.png',
+     tagFilters: [ 'Selected tag' ],
+     people: [ 'bot-key or username of agent' ],
+     peopleInfo: [ Array of JSON objects of people ],
+     tagInfoTextcolor: '#ffffff',
+     forwarded: false,
+     requestedClose: null
+} 
+```
+
 #### Message Object
 Message object contains the following properties:
 
-- String **text**: lowercase value of the text (reply) user entered in the chat box
+- String **messageText**: original value of the text (reply) user entered in the chat box
+- String **text**: adjusted - lowercase - value of the text (reply) user entered in the chat box
 - String **questionId**: Unique Id of the question. 
 - String **id**: Unique Id of the chat message
-- Object **userInput**: object containing reponse provided by user when offered Rich Message Input input (TODO: link to more details about Input Rich Message)
-- Object **buttonInput**: object containing response provided by user when offered Rich Message Buttons input (TODO: link to more details about Buttons Rich Message)
+- JSON Object **userInput**: object containing reponse provided by user when offered Rich Message Input input (TODO: link to more details about Input Rich Message)
+- JSON Object **buttonInput**: object containing response provided by user when offered Rich Message Buttons input (TODO: link to more details about Buttons Rich Message)
+- String **postedBy**: username (phone number) of the person that posted the question (it could be person who asked the question, any of the agents that join the conversation or other bots as bot_key of the bot)
+- Date **postedDate**: date message is posted
 
+Sample message object:
+```
+{  
+       messageText: 'This is MESSAGE text',
+       text: 'this is message text',
+       questionId: 'cd2cf7f7-b971-422a-c65a-gq988af6a4qw9999',
+	   id: '8b629bc6-e2f9-49ae-8297-f29aaaf6aafa9999',
+       userInput: JSON Object,
+       buttonInput: JSON Object,
+       postedBy: 'username-of-person-or-bot-that-posted-this-message'
+	   postedDate: '2016-09-21T10:25:37Z'
+}
+```
 
 ## Support:
 - Any bugs regarding Brandchat Core library please report it <https://github.com/almircajic/brandchat-bot-core/issues>
