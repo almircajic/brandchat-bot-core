@@ -229,7 +229,8 @@ messageManager.onMessage(function(message) {
          fakePostToAPIFunctionToCheckOrderByOrderId(userInput.value, 
             message, 
             function(msg, resultOfOrderSearch) {//onSuccess
-               messageManager.sendMessageText(msg.questionId, "Your order status is: " + resultOfOrderSearch.status);
+               messageManager.sendMessageText(msg.questionId, 
+               		"Your order status is: " + resultOfOrderSearch.status);
          });
          
       }
@@ -303,7 +304,8 @@ messageManager.onMessage(function(message) {
          fakePostToAPIFunctionToCheckOrderByOrderId(userInput.value, 
             message, 
             function(msg, resultOfOrderSearch) {//onSuccess
-               messageManager.sendMessageText(msg.questionId, "Your order status is: " + resultOfOrderSearch.status);
+               messageManager.sendMessageText(msg.questionId, 
+               		"Your order status is: " + resultOfOrderSearch.status);
 
                //Adding code to suggest closing of the question
                brandchatManager.suggestClose(message.questionId);
