@@ -10,7 +10,7 @@ In order to develop and run a Bots on your machine, you need few things setup be
 -	Download and Install NodeJS onto your target environment ([see how to install and setup NodeJS on your environment](https://nodejs.org/en/download/package-manager/))
 -  Download and install Git from <https://git-scm.com/download> so you can clone this repository onto your machine. Alternativelly, you can download the source code from [Github](https://github.com/almircajic/brandchat-bot-core).
 
-To add this library to your nodejs application (how to create new nodejs application is not part of this tutorial), use the following command:
+To add this library to your nodejs application (how to create new nodejs application is not part of this tutorial but `npm init` is a good start), use the following command:
 
 `npm install https://github.com/almircajic/brandchat-bot-core.git --save`
 

@@ -4,3 +4,4 @@
 
 module.exports.BrandchatManager = require("./lib/manager");
 module.exports.MessageManager = require("./lib/message");
+module.exports.BrandchatUtils = require("./lib/utils");
