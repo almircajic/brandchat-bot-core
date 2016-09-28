@@ -1,25 +1,46 @@
 # brandchat-bot-core
-Core wrapper library for building Brandchat Bots. Content of this document is still WORK IN PROGRESS. Visit us in a few days for final version.
+A core wrapper library for building Brandchat Bots.  The content of this document is still WORK IN PROGRESS. Visit us in a few days for final version.
 
 ## Installation
 
 #### Requirements
-In order to develop and run a Bots on your machine, you need few things setup before you begin: 
--	A valid Brandchat Account (see how to [sign up for Brandchat](https://www.brandchat.co/brands)).
--	Create a new Bot Agent (Under 'Agents' menu of your Brand Administration console) (TODO: See how to create new bot agent)
--	Download and Install NodeJS onto your target environment ([see how to install and setup NodeJS on your environment](https://nodejs.org/en/download/package-manager/))
+###### Development Environment  
+To setup you development environment, you need:
+-  Download and Install NodeJS onto your target environment ([see how to install and setup NodeJS on your environment](https://nodejs.org/en/download/package-manager/))
 -  Download and install Git from <https://git-scm.com/download> so you can clone this repository onto your machine. Alternativelly, you can download the source code from [Github](https://github.com/almircajic/brandchat-bot-core).
 
+#### Adding NPM Brandchat Dependencies
 To add this library to your nodejs application (how to create new nodejs application is not part of this tutorial but `npm init` is a good start), use the following command:
 
 `npm install https://github.com/almircajic/brandchat-bot-core.git --save`
 
 This will add Brandchat Bot Core library to your app. Check out our starter template at <https://github.com/almircajic/brandchat-startup-bot.git>  
 
-## Introduction
-Brandchat Bots work by running as an independent micro apps that are listening and responding to the messages based on certain rules. They are, for all sense and purposes, brand representatives (or Brand Agents as we call them) like any other human representative, just that they run 24/7 and they have follow certain preset rules based on which conversation takes place.
 
-In order to understand it better, we will start by explaining general flow of how Brandchat works. This will assist in understanding of commands and options available to you as a developer of Bots.  
+###### Creating Test Bots Agents
+To create and test Bots on testing environment, you need to download Brandchat app and register using your valid mobile phone number. Here is the full list of what's needed:
+
+- Download Brandchat app from Google Play or App Store.
+- Follow registation process after starting Brandchat app for the first time.
+- Then, open this url in Chrome browser or Safari on Mac (Edge & Firefox are not supported yet for Bot testing on the web): <https://testbot.brandchat.co>
+- System will ask you to enter your phone number. This must be the same number you used to register your Brandchat app (uder Development Environment above).
+- If number matches your registration number and you have already downloaded and registered the app on your phone, you should receive a push notification on your phone with temporary password that will let you login into TestBot system. Note that password epires within 5 minutes.
+- Once you are logged in into testbot.brandchat.co web portal, you click on Top Right Icon to view Bot Startup Screen. Here you can create new Bot Credentials (New Bot button on top). 
+- Creating Bot Credentials returns `bot_key` and `secred_key`. Note that `secret_key` will only be shown ONCE. You will not be able to retrieve this key after this step so please keep it However, if you loose it, you can always create new Bot Credentials following steps above.
+- Bot Startup Screen will have button to `Start` the bot. Starting Bot will eventually trigger "New Question" to that bot, so have your Bot ready and active (starting Bot is explained below in details).
+
+###### Pushing Bots to Live Brandchat 
+Once you have created the Bot on your test environment, you need to propagate it into the Live Brandchat environment. To do that, you need the following:
+-	A valid Brandchat Brand Account (see how to [sign up for Brandchat](https://www.brandchat.co/brands) for Brandchat).
+-	Create a new Bot Agent (Under 'Agents' menu of your Brand Administration console) (TODO: See how to create new bot agent). You will receive `bot_key` and `secret_key` for your new Live bot.
+- Update these credentials in your code and start the Bot to have it Live and serving new questions immediatelly. How to run the Bot for Live environment is explained below in details. 
+
+
+
+## Introduction
+Brandchat Bots work by running as an independent micro apps that are listening and responding to the messages based on certain rules. They are, for all sense and purposes, brand representatives (or Brand Agents as we call them) like any other human representative, just that they run 24/7 and they  follow rules of conversation as per conditions set in the Bot code itself.
+
+In order to understand it better, we will start by explaining general flow of how Brandchat system works. This will assist in understanding of commands and options available to you as a developer of Bots.  
 
 #### Quick Overview of How Brandchat Works
 There are three basic components of the flow in Brandchat. These are: 
