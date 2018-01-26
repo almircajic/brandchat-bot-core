@@ -114,7 +114,7 @@ messageManager.welcomeMessage = function(question){
 };
 
 //Bot correspondence flow
-messageManager.onMessage(function(message){
+messageManager.onMessage(function(message, userInput, optionsInput){
    messageManager.sendMessageText(message.questionId, "Sorry, I cannot handle your input, yet!");   
 });
 ```
@@ -178,7 +178,7 @@ This code segment handles the first contact between the user and the bot. You re
 
 ```Javascript
 //Bot correspondence flow
-messageManager.onMessage(function(message){
+messageManager.onMessage(function(message, userInput, optionsInput){
    messageManager.sendMessageText(message.questionId, "Sorry, I can not handle your input, yet!"); 
 });
 ```
@@ -235,27 +235,24 @@ To add some logic here, first we need to learn what kind of user inputs the Bran
 
 So, let's change `onMessage` slightly so that it can capture response from the user and run the appropriate action.
 ```Javascript
-messageManager.onMessage(function(message) {
+messageManager.onMessage(function(message, userInput, optionsInput) {
    
-   // all controlled user inputs are captured in message.userInput object
-   // for now, all we need from this object is: name and value 
-   if (message.userInput && message.userInput.value) {
-      var userInput = message.userInput;
-      // To store user's input, we can use local memory object, redis or any other database.
-      // e.g.:  localInMemoryObject[message.questionId][userInput.name] = userInput.value;
+   // rich message user inputs are captured as userInput object and passed here
+  
+   // SIDE NOTE: To store user's input, we can use local memory object, redis or any other database.
+   //            e.g.:  localInMemoryObject[message.questionId][userInput.name] = userInput.value;
 
-      // Processing User Input. "userInput.name" must match userInput.name of the message object
-      // specified above under userInput object in `welcomeMessage` function.
-      if (userInput.name == 'orderId') {
-         
-         fakePostToAPIFunctionToCheckOrderByOrderId(userInput.value, 
-            message, 
-            function(msg, resultOfOrderSearch) {//onSuccess
-               messageManager.sendMessageText(msg.questionId, 
-               		"Your order status is: " + resultOfOrderSearch.status);
-         });
-         
-      }
+   // Processing User Input by comparing that "userInput.name" matches Rich Message object name
+   if (userInput && userInput.name == 'orderId') {
+      
+      fakePostToAPIFunctionToCheckOrderByOrderId(userInput.value, 
+         message, 
+         function(msg, resultOfOrderSearch) {//onSuccess
+            messageManager.sendMessageText(msg.questionId, 
+            		"Your order status is: " + resultOfOrderSearch.status);
+      });
+      
+   
    } else {
       messageManager.sendMessageText(message.questionId, "Sorry, I don't understand you input");
    }
@@ -309,7 +306,7 @@ brandchatManager.suggestClose(message.questionId);
 So, basically, to rework our onMessage flow, we could insert the above line of code just after we inform the user of the status of their order. The 
 complete function would now look like this:
 ```Javascript
-messageManager.onMessage(function(message) {
+messageManager.onMessage(function(message, userInput, optionsInput) {
    
    // all controlled user inputs are captured in message.userInput object
    // for now, all we need from this object is: name and value 
