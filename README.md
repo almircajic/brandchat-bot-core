@@ -303,33 +303,29 @@ To suggest closing of the question to the user, there is a simple and convenient
 ```Javascript
 brandchatManager.suggestClose(message.questionId);
 ```
-So, basically, to rework our onMessage flow, we could insert the above line of code just after we inform the user of the status of their order. The 
+So, to rework our onMessage flow, we could insert the above line of code just after we inform the user of the status of their order. The 
 complete function would now look like this:
 ```Javascript
 messageManager.onMessage(function(message, userInput, optionsInput) {
    
-   // all controlled user inputs are captured in message.userInput object
-   // for now, all we need from this object is: name and value 
-   if (message.userInput && message.userInput.value) {
-      var userInput = message.userInput;
-      // To store user's input, we can use local memory object, redis or any other database.
-      // e.g.:  localInMemoryObject[message.questionId][userInput.name] = userInput.value;
+   // rich message user inputs are captured as userInput object and passed here
+  
+   // SIDE NOTE: To store user's input, we can use local memory object, redis or any other database.
+   //            e.g.:  localInMemoryObject[message.questionId][userInput.name] = userInput.value;
 
-      // Processing User Input. "userInput.name" must match userInput.name of the message object
-      // specified above under userInput object in `welcomeMessage` function.
-      if (userInput.name == 'orderId') {
+   // Processing User Input by comparing that "userInput.name" matches Rich Message object name
+   if (userInput && userInput.name == 'orderId') {
          
-         fakePostToAPIFunctionToCheckOrderByOrderId(userInput.value, 
-            message, 
-            function(msg, resultOfOrderSearch) {//onSuccess
-               messageManager.sendMessageText(msg.questionId, 
-               		"Your order status is: " + resultOfOrderSearch.status);
+      fakePostToAPIFunctionToCheckOrderByOrderId(userInput.value, 
+         message, 
+         function(msg, resultOfOrderSearch) {//onSuccess
+            messageManager.sendMessageText(msg.questionId, 
+            		"Your order status is: " + resultOfOrderSearch.status);
 
-               //Adding code to suggest closing of the question
-               brandchatManager.suggestClose(message.questionId);
-         });
-         
-      }
+            //Adding code to suggest closing of the question
+            brandchatManager.suggestClose(message.questionId);
+      });
+
    } else {
       messageManager.sendMessageText(message.questionId, "Sorry, I don't understand your input");
    }
@@ -403,9 +399,18 @@ When a question is asked, the Question object is passed into the `welcomeMessage
 - String **tagInfoLogo**: file name of the brand logo
 - Array<String> **tagFilters**: list of tags user selected when asking the question. As of today, this list always returns one and only one item
 - Array<String> **people**: list of usernames of people and bots who are attending to this question
-- Array<JSON Objects> **peopleInfo**: list of JSON objects containing more details about people who are helping such as name and photo
+- Array<JSON Object> **peopleInfo**: list of JSON objects containing more details about people who are helping such as name and photo
 - Boolean **forwarded**: is the message forwarded
+- Array<JSON Object> **forwards**: list of forwards for this question with information who forwarded, when and from which channel.
 - Date **requestedClose**: date when the agent had last requested to close the question.
+- String **source**: where the question came from, from website (Brandchat live chat plugin), FB Messenger, Brandchat App, Email, or other sources
+- String **refId**: reference ID contains ID of Brandchat Brandcast object that triggered the question as well as FB Ad Canvas ID if the question came from FB AD Canvas
+- String **refType**: Type of ref object. "brandcast", "FBADS", "SHORTLINK","FB-MESSAGE"
+- JSON Object **refObject**: Object with information about reference ID above
+- String **country**: Detected country of the user via IP (only for Brandchat Live Chat Plugin)
+- String **countryCode**: Detected countryCode of the user via IP (only for Brandchat Live Chat Plugin)
+- String **city**: Detected city of the user via IP (only for Brandchat Live Chat Plugin)
+- String **time_zone**: Detected time zone of the user via IP (only for Brandchat Live Chat Plugin)
 
 Sample Question object:
 ```Javascript
@@ -419,6 +424,7 @@ Sample Question object:
      postedBy: 'username-phonenumber-of-user-who-posted-the-question',
      postedByInfoDisplayName: 'Almir C.',
      postedByInfoName: 'Almir C.',
+     postedByInfoEmail: 'almir.cajic@gmail.com',
      postedByInfoPhoto: 'filename-of-photo.png',
      tagInfoBizHours: 'Weekdays 9am-6pm',
      tagInfoColor: '#303f9f',
@@ -430,7 +436,10 @@ Sample Question object:
      peopleInfo: [ Array of JSON objects of people ],
      tagInfoTextcolor: '#ffffff',
      forwarded: false,
-     requestedClose: null
+     requestedClose: null,
+     source: "w",//w for web plugin
+     country: "Malaysia",
+     countryCode: "MY"
 } 
 ```
 
