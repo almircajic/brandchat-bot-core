@@ -7,12 +7,11 @@ This is the core wrapper library for building Brandchat Bots.  The content of th
 ###### Development Environment  
 To setup your development environment, you will need to:
 -  Download and Install NodeJS onto your target environment ([see how to install and setup NodeJS on your environment](https://nodejs.org/en/download/package-manager/))
--  Download and install Git from <https://git-scm.com/download> so you can clone this repository onto your machine. Alternatively, you can download the source code from [Github](https://github.com/almircajic/brandchat-bot-core).
 
 #### Adding NPM Brandchat Dependencies
 To add this library to your nodejs application (how to create new nodejs application is not part of this tutorial but `npm init` is a good start), use the following command:
 
-`npm install https://github.com/almircajic/brandchat-bot-core.git --save`
+`npm install brandchat-bot-core --save`
 
 This will add the Brandchat Bot Core library to your app. Check out our starter template at <https://github.com/almircajic/brandchat-startup-bot.git>  
 
@@ -90,7 +89,7 @@ then, type:
 
 Once the `package.json` file is generated, type the following into your command prompt:
 
-`npm install https://github.com/almircajic/brandchat-bot-core.git --save`
+`npm install brandchat-bot-core --save`
 
 This will pull the latest version of the Brandchat Core Bot library into your app . When the process is finished, you should see a `node_modules` folder with a `brandchat-bot-core` folder within it (a new version of Node will have many more folders under `node_modules` due to a new flat, rather than deep, folder structuring of modules)
 
