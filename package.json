@@ -1,6 +1,6 @@
 {
   "name": "brandchat-bot-core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Core wrapper library for building Brandchat Bots",
   "main": "index.js",
   "scripts": {
